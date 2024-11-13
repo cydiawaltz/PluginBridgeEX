@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "dependencies": {
+    ".NETFramework,Version=v4.8": {
+      "AtsEx.CoreExtensions": {
+        "type": "Direct",
+        "requested": "[1.0.0-rc.10, )",
+        "resolved": "1.0.0-rc.10",
+        "contentHash": "lWQb03fswt/55MKr2RRZI/MAgd3s3JdY1LSl7sOwCawrb8SP1rwEDtxpCHZVFtkrSb/Mi8k6FRebwPQgUSKvwQ==",
+        "dependencies": {
+          "AtsEx.PluginHost": "1.0.0-rc.10"
+        }
+      },
+      "AtsEx.PluginHost": {
+        "type": "Direct",
+        "requested": "[1.0.0-rc.10, )",
+        "resolved": "1.0.0-rc.10",
+        "contentHash": "pfaNqa/wwF1Ou+C/Uc4oHFMAoKGiqLYoE0M50YXGgi4MYrvf+uctusD5dwilAwHn9pl7n9pFSL5CPkTm7qCDlQ=="
+      }
+    }
+  }
+}
