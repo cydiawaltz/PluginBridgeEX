@@ -18,14 +18,7 @@ namespace PluginBridgeEX
     {
         /// プラグインの有効・無効状態
         private bool status = true;
-        //DLLExportを使うためのdll(末尾にベタ移植ゾーンがある)
-        private const string dllPath = "YourDLLName.dll";
-        [DllImport("kernel32.dll")]
-        private static extern IntPtr LoadLibrary(string dllToLoad);
-
-        [DllImport("kernel32.dll")]
-        private static extern bool FreeLibrary(IntPtr hModule);
-
+        
         /// <inheritdoc/>
         public bool IsEnabled
         {
@@ -60,24 +53,6 @@ namespace PluginBridgeEX
                 // 処理を実装
             }
             return new ExtensionTickResult();
-        }
-
-        //ここからベタ移植ゾーン(with ChatGPT)
-        public static void Initialize()
-        {
-            IntPtr libraryHandle = LoadLibrary(dllPath);
-            if (libraryHandle == IntPtr.Zero)
-            {
-                throw new Exception("Failed to load DLL.");
-            }
-        }
-
-        public static void Cleanup()
-        {
-            if (!FreeLibrary(LoadLibrary(dllPath)))
-            {
-                throw new Exception("Failed to unload DLL.");
-            }
         }
     }
 }

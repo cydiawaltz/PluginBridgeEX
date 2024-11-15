@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extension", "Extension\Exte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeApp", "BridgeApp\BridgeApp.csproj", "{FEBC93EA-5020-4FA5-8B1F-5855E9EBBE1A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehiclePlugin", "VehiclePlugin\VehiclePlugin.csproj", "{52B5C17D-E91D-47B7-AA18-BE4AEB93729F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FEBC93EA-5020-4FA5-8B1F-5855E9EBBE1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEBC93EA-5020-4FA5-8B1F-5855E9EBBE1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEBC93EA-5020-4FA5-8B1F-5855E9EBBE1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52B5C17D-E91D-47B7-AA18-BE4AEB93729F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52B5C17D-E91D-47B7-AA18-BE4AEB93729F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52B5C17D-E91D-47B7-AA18-BE4AEB93729F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52B5C17D-E91D-47B7-AA18-BE4AEB93729F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
