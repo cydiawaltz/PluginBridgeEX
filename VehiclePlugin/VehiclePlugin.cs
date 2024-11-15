@@ -7,14 +7,14 @@ using AtsEx.PluginHost;
 using AtsEx.PluginHost.Native;
 using AtsEx.PluginHost.Plugins;
 using BveTypes.ClassWrappers;
+using System.Windows.Forms;
+using AtsEx.PluginHost.Input.Native;
 
 namespace PluginBridgeEX
 {
-    /// <summary>
     /// プラグインの本体
     /// Plugin() の第一引数でこのプラグインの仕様を指定
     /// Plugin() の第二引数でこのプラグインが必要とするAtsEX本体の最低バージョンを指定（オプション）
-    /// </summary>
     [Plugin(PluginType.VehiclePlugin)]
     internal class VehiclePluginMain : AssemblyPluginBase
     {
@@ -28,46 +28,63 @@ namespace PluginBridgeEX
             Native.Started += Initialize;
             SendToBackEnd($"SetVehicleSpec {Native.VehicleSpec}");//SetvehicleSpec(AtsVehicleSpec spec)
             Native.Handles.Reverser.PositionChanged += SetReverser;
-        }
-        public void Initialize(StartedEventArgs e)//Initialize(int brake)
-        {
-            SendToBackEnd($"Initialize {brake}\n");
-        }
-        public void SetReverser(object sender,EventArgs e)//SetReverser(int notch) AtsEX RC9で実装
-        {
-            SendToBackEnd($"SetReverser {reverser}\n");
+            Native.NativeKeys.AnyKeyPressed += OnKeyDown;
+            Native.NativeKeys.AnyKeyReleased += OnKeyUp;
+            Native.HornBlown += HornBlown;
         }
 
-        /// <summary>
-        /// プラグインが解放されたときに呼ばれる
-        /// 後処理を実装する
-        /// </summary>
+        void Initialize(StartedEventArgs e)//Initialize(int brake)
+        {
+            SendToBackEnd($"Initialize {e.DefaultBrakePosition}\n");
+        }
+        void SetReverser(object sender, EventArgs e)//SetReverser(int) AtsEX RC9で実装
+        {
+            SendToBackEnd($"SetReverser {Native.Handles.Reverser.Position}\n");
+        }
+        void OnKeyUp(object sender, NativeKeyEventArgs e)//KeyDown(int)
+        {
+            SendToBackEnd($"KeyDown {(int)e.KeyName}\n");
+        }
+        void OnKeyDown(object sender, NativeKeyEventArgs e)//KeyUp(int)
+        {
+            SendToBackEnd($"KeyDown {(int)e.KeyName}\n");
+        }
+        void HornBlown(HornBlownEventArgs e)
+        {
+            SendToBackEnd($"HornBlown {(int)e.HornType}");
+        }
+
         public override void Dispose()
         {
+
         }
 
-        /// <summary>
-        /// シナリオ読み込み中に毎フレーム呼び出される
-        /// </summary>
-        /// <param name="elapsed">前回フレームからの経過時間</param>
         public override TickResult Tick(TimeSpan elapsed)
         {
             brake = Native.Handles.Brake.Notch;
             power = Native.Handles.Power.Notch;
-            switch(Native.Handles.Reverser.Position)
+            if (!(brake == oldBrake))
             {
-                case ReverserPosition.B: reverser = -1; break;
-                case ReverserPosition.F: reverser = 1; break;
-                case ReverserPosition.N: reverser = 0; break;
+                SendToBackEnd($"SetBrake {brake}");
             }
-
+            if (!(power == oldPower))
+            {
+                SendToBackEnd($"SetPower {power}");
+            }
             oldBrake = Native.Handles.Brake.Notch;//以下は最後の方に記述
             oldPower = Native.Handles.Power.Notch;
             return new VehiclePluginTickResult();
         }
-        static bool SendToBackEnd(string message)
+        static void SendToBackEnd(string message)
         {
-            return false;
+            if (SendMain(message) == false)
+            {
+                MessageBox.Show("名前付きパイプの通信でエラーが発生しました。\n発生番地:" + message);
+            }
+        }
+        static bool SendMain(string message)
+        {
+            return true;
         }
     }
 }
